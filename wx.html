@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支付页面</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+        }
+        .button {
+            background-color: #07c160;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .button:hover {
+            background-color: #06b057;
+        }
+        .message {
+            color: #333;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        // 检测是否为微信浏览器
+        function isWechatBrowser() {
+            return /MicroMessenger/.test(navigator.userAgent);
+        }
+        
+        // 获取URL参数
+        function getUrlParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+        
+        // 页面加载时执行
+        window.onload = function() {
+            const url = getUrlParam('url');
+            const container = document.querySelector('.container');
+            
+            if (isWechatBrowser()) {
+                container.innerHTML = '<p class="message">请在右上角选择"在浏览器中打开"</p>';
+            } else {
+                const button = document.createElement('button');
+                button.className = 'button';
+                button.textContent = '立即支付';
+                button.onclick = function() {
+                    if (url) {
+                        window.location.href = url;
+                    } else {
+                        alert('未找到支付链接');
+                    }
+                };
+                container.appendChild(button);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- 内容由JavaScript动态生成 -->
+    </div>
+</body>
+</html>
